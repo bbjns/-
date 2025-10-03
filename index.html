@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>北辰团队高级合约计算器</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #0066cc;
+    }
+    .section {
+      background: #fff;
+      padding: 15px;
+      margin: 15px auto;
+      max-width: 700px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+    }
+    button {
+      padding: 12px;
+      background: #0066cc;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      width: 100%;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+    button:hover {
+      background: #004999;
+    }
+    .result {
+      background: #f0f8ff;
+      border: 1px solid #ccc;
+      padding: 20px;
+      margin: 30px auto;
+      max-width: 700px;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <h1>北辰团队高级合约计算器</h1>
+
+  <!-- 区域 A：基本参数 + 分批止盈止损 -->
+  <div class="section">
+    <h2>① 基本参数</h2>
+    <label>账户总资金 (U)：<input type="number" id="totalFund" value="1000"></label>
+    <label>开仓方向：
+      <select id="direction">
+        <option value="long">做多</option>
+        <option value="short">做空</option>
+      </select>
+    </label>
+    <label>开仓价格：<input type="number" id="entry"></label>
+    <label>平仓价格：<input type="number" id="exit"></label>
+    <label>名义仓位价值 (U)：<input type="number" id="positionValue"></label>
+    <label>杠杆倍数：<input type="number" id="leverage" value="10"></label>
+
+    <h2>② 分批止盈 / 止损</h2>
+    <label>止盈1 (价格)：<input type="number" id="tp1"> 比例(%)：<input type="number" id="tp1_pct"></label>
+    <label>止盈2 (价格)：<input type="number" id="tp2"> 比例(%)：<input type="number" id="tp2_pct"></label>
+    <label>止损 (价格)：<input type="number" id="sl"> 比例(%)：<input type="number" id="sl_pct"></label>
+  </div>
+
+  <!-- 区域 B：加仓模式 + 复利计算 -->
+  <div class="section">
+    <h2>③ 加仓模式</h2>
+    <label>加仓方式：
+      <select id="addMode">
+        <option value="none">不加仓</option>
+        <option value="profit">浮盈加仓</option>
+        <option value="loss">浮亏加仓</option>
+      </select>
+    </label>
+    <label>加仓比例 (% 仓位)：<input type="number" id="addPct"></label>
+
+    <h2>④ 复利计算</h2>
+    <label>是否启用复利：
+      <select id="compound">
+        <option value="no">否</option>
+        <option value="yes">是</option>
+      </select>
+    </label>
+    <label>连续计算次数：<input type="number" id="rounds" value="1"></label>
+  </div>
+
+  <!-- 结果输出 -->
+  <button onclick="calculate()">计算结果</button>
+  <div class="result" id="result">结果将在这里显示</div>
+
+  <script>
+    function calculate() {
+      let totalFund = parseFloat(document.getElementById("totalFund").value);
+      let direction = document.getElementById("direction").value;
+      let entry = parseFloat(document.getElementById("entry").value);
+      let exit = parseFloat(document.getElementById("exit").value);
+      let positionValue = parseFloat(document.getElementById("positionValue").value);
+      let leverage = parseFloat(document.getElementById("leverage").value);
+
+      if (!totalFund || !entry || !exit || !positionValue || !leverage) {
+        document.getElementById("result").innerHTML = "⚠️ 请填写完整参数";
+        return;
+      }
+
+      // 保证金 = 名义价值 / 杠杆
+      let margin = positionValue / leverage;
+
+      // 基础盈亏
+      let pnl = (direction === "long" ? (exit - entry) : (entry - exit)) * (positionValue / entry);
+
+      // 分批止盈止损加权
+      let tp1 = parseFloat(document.getElementById("tp1").value);
+      let tp1_pct = parseFloat(document.getElementById("tp1_pct").value) || 0;
+      let tp2 = parseFloat(document.getElementById("tp2").value);
+      let tp2_pct = parseFloat(document.getElementById("tp2_pct").value) || 0;
+      let sl = parseFloat(document.getElementById("sl").value);
+      let sl_pct = parseFloat(document.getElementById("sl_pct").value) || 0;
+
+      let weightedPnl = pnl;
+      if (tp1 && tp1_pct) weightedPnl = (tp1 - entry) * (positionValue / entry) * (tp1_pct / 100);
+      if (tp2 && tp2_pct) weightedPnl += (tp2 - entry) * (positionValue / entry) * (tp2_pct / 100);
+      if (sl && sl_pct) weightedPnl -= (entry - sl) * (positionValue / entry) * (sl_pct / 100);
+
+      // 结果输出
+      document.getElementById("result").innerHTML = `
+        📊 结果计算：<br>
+        名义仓位：<b>${positionValue.toFixed(2)} U</b><br>
+        保证金：<b>${margin.toFixed(2)} U</b><br>
+        预估盈亏：<b>${pnl.toFixed(2)} U</b><br>
+        分批策略盈亏：<b>${weightedPnl.toFixed(2)} U</b><br>
+        风险比例：<b>${(margin / totalFund * 100).toFixed(2)}%</b>
+      `;
+    }
+  </script>
+</body>
+</html>
