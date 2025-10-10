@@ -1,155 +1,628 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh" data-theme="light">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>北辰团队高级合约计算器</title>
   <style>
+    :root {
+      --bg: #0f1115;
+      --surface: #151922;
+      --border: #252a35;
+      --text: #e6e9ef;
+      --muted: #9aa3b2;
+      --accent: #1f6feb;
+      --gold: #d4af37;
+      --gold-soft: rgba(212, 175, 55, 0.24);
+      --gold-soft-2: rgba(212, 175, 55, 0.12);
+      --btn: #263041;
+      --btn-hover: #2e3b50;
+      --input-bg: #0f1115;
+    }
+    [data-theme="light"] {
+      --bg: #f7f7f9;
+      --surface: #ffffff;
+      --border: #e6e8ef;
+      --text: #222631;
+      --muted: #5b6270;
+      --accent: #0b62ff;
+      --btn: #0b62ff;
+      --btn-hover: #094dcc;
+      --input-bg: #ffffff;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
     body {
-      font-family: Arial, sans-serif;
-      background: #f9f9f9;
       margin: 0;
-      padding: 20px;
+      font-family: "Noto Sans SC", "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
-    h1 {
-      text-align: center;
-      color: #0066cc;
+
+    .gold-glow {
+      color: var(--gold);
+      text-shadow: 0 0 8px var(--gold-soft), 0 0 18px var(--gold-soft-2);
+      letter-spacing: 0.2px;
+      font-weight: 700;
     }
-    .section {
-      background: #fff;
-      padding: 15px;
-      margin: 15px auto;
-      max-width: 700px;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+
+    /* Header */
+    .app-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+      padding: 0 14px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(212,175,55,0.04), transparent 70%);
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
-    label {
-      display: block;
-      margin: 10px 0 5px;
+    .brand {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin: 0 auto;
     }
-    input, select {
-      width: 100%;
-      padding: 8px;
-      margin-bottom: 10px;
+    .brand h1 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 800;
     }
-    button {
-      padding: 12px;
-      background: #0066cc;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      width: 100%;
-      cursor: pointer;
-      margin-top: 15px;
+    .brand small { color: var(--muted); font-weight: 500; }
+    .icon-btn {
+      min-width: 40px; height: 40px; border: 1px solid var(--border);
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--surface); color: var(--text);
+      border-radius: 10px; cursor: pointer;
     }
-    button:hover {
-      background: #004999;
+    .icon-btn:hover { border-color: var(--gold-soft); box-shadow: 0 0 0 3px rgba(212,175,55,0.08) inset; }
+
+    /* Layout */
+    .container { max-width: 960px; margin: 22px auto; padding: 0 16px; }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
     }
-    .result {
-      background: #f0f8ff;
-      border: 1px solid #ccc;
-      padding: 20px;
-      margin: 30px auto;
-      max-width: 700px;
-      border-radius: 8px;
-      text-align: center;
-      font-size: 16px;
+    .section-title { margin: 0 0 14px; font-size: 16px; font-weight: 700; }
+
+    /* Form */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 12px;
     }
+    .col-6 { grid-column: span 6; }
+    .col-4 { grid-column: span 4; }
+    .col-12 { grid-column: span 12; }
+    @media (max-width: 720px) { .col-6, .col-4 { grid-column: span 12; } }
+
+    label { font-size: 12px; color: var(--muted); display: block; margin-bottom: 6px; }
+    input[type="number"], select {
+      width: 100%; padding: 12px 12px; border-radius: 12px;
+      border: 1px solid var(--border); background: var(--input-bg); color: var(--text);
+      outline: none;
+    }
+    input[type="number"]:focus, select:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(212,175,55,0.12); }
+    .helper { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 8px; padding: 12px 14px; border-radius: 12px; cursor: pointer;
+      border: none; color: #fff; background: var(--btn);
+      font-weight: 700; letter-spacing: 0.2px;
+    }
+    .btn:hover { background: var(--btn-hover); }
+    .btn.gold { background: linear-gradient(180deg, #d4af37, #b9922a); color: #1b1406; }
+    .btn.gold:hover { filter: brightness(0.98); }
+
+    /* Result */
+    .result-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 10px; }
+    .stat {
+      grid-column: span 6; background: linear-gradient(180deg, rgba(212,175,55,0.04), transparent 70%);
+      border: 1px solid var(--border); border-radius: 12px; padding: 12px;
+    }
+    .stat h4 { margin: 0 0 6px; font-size: 12px; color: var(--muted); }
+    .stat .v { font-size: 18px; font-weight: 800; }
+    .stat .sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+    @media (max-width: 720px) { .stat { grid-column: span 12; } }
+
+    /* Drawer & Modals */
+    .drawer {
+      position: fixed; inset: 0 auto 0 0; width: 300px; background: var(--surface);
+      border-right: 1px solid var(--border); transform: translateX(-100%);
+      transition: transform .25s ease; z-index: 20; display: flex; flex-direction: column;
+    }
+    .drawer.open { transform: translateX(0); }
+    .drawer-header { padding: 14px; border-bottom: 1px solid var(--border); font-weight: 800; }
+    .drawer-list { padding: 6px; }
+    .drawer-item {
+      display: flex; justify-content: space-between; align-items: center; gap: 8px;
+      padding: 10px 12px; border-radius: 10px; cursor: pointer;
+    }
+    .drawer-item:hover { background: rgba(212,175,55,0.08); }
+
+    .backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.4); opacity: 0; pointer-events: none; transition: opacity .2s ease; z-index: 15; }
+    .backdrop.show { opacity: 1; pointer-events: auto; }
+
+    .modal { position: fixed; inset: 0; display: grid; place-items: center; z-index: 30; }
+    .dialog { width: min(680px, 92vw); background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px; }
+    .dialog h3 { margin: 0 0 12px; }
+    .dialog .actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 12px; }
+
+    .hidden { display: none !important; }
+    .row { display: flex; align-items: center; gap: 10px; }
+    .divider { height: 1px; background: var(--border); margin: 10px 0; }
+    .switch { position: relative; width: 44px; height: 26px; background: var(--border); border-radius: 26px; cursor: pointer; }
+    .switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; background: var(--gold); border-radius: 50%; transition: left .2s ease; }
+    .switch.on { background: rgba(212,175,55,0.35); }
+    .switch.on::after { left: 21px; }
   </style>
 </head>
 <body>
-  <h1>北辰团队高级合约计算器</h1>
+  <header class="app-header">
+    <button class="icon-btn" id="btnMenu" aria-label="menu">☰</button>
+    <div class="brand" aria-label="brand">
+      <h1 class="gold-glow" data-i18n="title">北辰团队高级合约计算器</h1>
+      <small data-i18n="subtitle">稳重风格 · 微弱金光</small>
+    </div>
+    <span style="width:40px"></span>
+  </header>
 
-  <!-- 区域 A：基本参数 + 分批止盈止损 -->
-  <div class="section">
-    <h2>① 基本参数</h2>
-    <label>账户总资金 (U)：<input type="number" id="totalFund" value="1000"></label>
-    <label>开仓方向：
-      <select id="direction">
-        <option value="long">做多</option>
-        <option value="short">做空</option>
-      </select>
-    </label>
-    <label>开仓价格：<input type="number" id="entry"></label>
-    <label>平仓价格：<input type="number" id="exit"></label>
-    <label>名义仓位价值 (U)：<input type="number" id="positionValue"></label>
-    <label>杠杆倍数：<input type="number" id="leverage" value="10"></label>
+  <aside id="drawer" class="drawer" aria-label="drawer">
+    <div class="drawer-header gold-glow" data-i18n="menu">菜单</div>
+    <div class="drawer-list">
+      <div class="drawer-item" id="menuAuth">
+        <span data-i18n="menu_auth">注册 / 登录 / 会员开通</span>
+        <span>›</span>
+      </div>
+      <div class="drawer-item" id="menuPayment">
+        <span data-i18n="menu_payment">支付方式说明</span>
+        <span>›</span>
+      </div>
+      <div class="drawer-item" id="menuLang">
+        <span data-i18n="menu_language">语言切换</span>
+        <span>🌐</span>
+      </div>
+      <div class="drawer-item">
+        <span data-i18n="menu_theme">主题切换</span>
+        <div id="themeSwitch" class="switch" role="switch" aria-checked="false"></div>
+      </div>
+    </div>
+  </aside>
+  <div id="backdrop" class="backdrop"></div>
 
-    <h2>② 分批止盈 / 止损</h2>
-    <label>止盈1 (价格)：<input type="number" id="tp1"> 比例(%)：<input type="number" id="tp1_pct"></label>
-    <label>止盈2 (价格)：<input type="number" id="tp2"> 比例(%)：<input type="number" id="tp2_pct"></label>
-    <label>止损 (价格)：<input type="number" id="sl"> 比例(%)：<input type="number" id="sl_pct"></label>
+  <div class="container">
+    <div class="card" style="margin-bottom:14px">
+      <h2 class="section-title gold-glow" data-i18n="trade_params">交易参数</h2>
+      <div class="grid">
+        <div class="col-6">
+          <label data-i18n="total_fund">账户总资金 (U)</label>
+          <input id="totalFunds" type="number" min="0" step="0.01" value="1000" />
+          <div class="helper" data-i18n="total_fund_helper">用于本策略的账户总额</div>
+        </div>
+        <div class="col-6">
+          <label data-i18n="leverage">杠杆倍数</label>
+          <input id="leverage" type="number" min="1" step="1" value="10" />
+          <div class="helper" data-i18n="leverage_helper">用于推导价格变动幅度</div>
+        </div>
+
+        <div class="col-6">
+          <label data-i18n="direction">开仓方向</label>
+          <select id="direction">
+            <option value="long" data-i18n="long">做多</option>
+            <option value="short" data-i18n="short">做空</option>
+          </select>
+        </div>
+
+        <div class="col-6">
+          <label data-i18n="margin_pct">使用保证金占总资金 (%)</label>
+          <input id="marginPct" type="number" min="0" max="100" step="0.1" value="10" />
+          <div class="helper" data-i18n="margin_pct_helper">用于本次建仓的保证金比例</div>
+        </div>
+
+        <div class="col-6">
+          <label data-i18n="stop_roe">止损ROE (%)</label>
+          <input id="riskRoe" type="number" min="0" max="100" step="0.1" value="5" />
+          <div class="helper" data-i18n="stop_roe_helper">亏损占保证金比例，决定风险金额</div>
+        </div>
+
+        <div class="col-6">
+          <label data-i18n="rr">盈亏比 (1:x)</label>
+          <input id="rrX" type="number" min="0.1" step="0.1" value="2" />
+          <div class="helper" data-i18n="rr_helper">目标盈利 = 亏损 × x</div>
+        </div>
+
+        <div class="col-6">
+          <label data-i18n="trigger_roe">浮盈触发ROE (%)</label>
+          <input id="triggerRoe" type="number" min="0" max="1000" step="0.1" value="3" />
+          <div class="helper" data-i18n="trigger_roe_helper">盈利达到该ROE即考虑加仓</div>
+        </div>
+
+        <div class="col-6">
+          <label data-i18n="add_on_pct">加仓比例 (%)</label>
+          <input id="addOnPct" type="number" min="0" max="100" step="0.1" value="25" />
+          <div class="helper" data-i18n="add_on_pct_helper">相对于初始保证金的追加比例</div>
+        </div>
+
+        <div class="col-12">
+          <button id="btnCalc" class="btn gold" data-i18n="calc">计算</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title gold-glow" data-i18n="results">结果</h2>
+      <div class="result-grid">
+        <div class="stat">
+          <h4 data-i18n="margin">保证金</h4>
+          <div class="v" id="outMargin">-</div>
+          <div class="sub" id="outNotional">-</div>
+        </div>
+        <div class="stat">
+          <h4 data-i18n="rr_out">盈亏比</h4>
+          <div class="v" id="outRR">-</div>
+          <div class="sub" id="outMoves">-</div>
+        </div>
+        <div class="stat">
+          <h4 data-i18n="loss_amount">亏损金额</h4>
+          <div class="v" id="outLoss">-</div>
+          <div class="sub" id="outAfterLoss">-</div>
+        </div>
+        <div class="stat">
+          <h4 data-i18n="profit_amount">目标盈利金额</h4>
+          <div class="v" id="outProfit">-</div>
+          <div class="sub" id="outAfterProfit">-</div>
+        </div>
+        <div class="stat">
+          <h4 data-i18n="add_trigger">加仓触发</h4>
+          <div class="v" id="outTrigger">-</div>
+          <div class="sub" id="outAddOnNote">-</div>
+        </div>
+        <div class="stat">
+          <h4 data-i18n="add_amount">加仓金额</h4>
+          <div class="v" id="outAddOn">-</div>
+          <div class="sub" id="outAddOnTotal">-</div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- 区域 B：加仓模式 + 复利计算 -->
-  <div class="section">
-    <h2>③ 加仓模式</h2>
-    <label>加仓方式：
-      <select id="addMode">
-        <option value="none">不加仓</option>
-        <option value="profit">浮盈加仓</option>
-        <option value="loss">浮亏加仓</option>
-      </select>
-    </label>
-    <label>加仓比例 (% 仓位)：<input type="number" id="addPct"></label>
-
-    <h2>④ 复利计算</h2>
-    <label>是否启用复利：
-      <select id="compound">
-        <option value="no">否</option>
-        <option value="yes">是</option>
-      </select>
-    </label>
-    <label>连续计算次数：<input type="number" id="rounds" value="1"></label>
+  <!-- Language Modal -->
+  <div id="langModal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="dialog">
+      <h3 class="gold-glow" data-i18n="choose_lang">选择语言</h3>
+      <div class="divider"></div>
+      <div class="row">
+        <label class="row" style="gap:6px">
+          <input type="radio" name="lang" value="zh" /> 简体中文
+        </label>
+        <label class="row" style="gap:6px">
+          <input type="radio" name="lang" value="en" /> English
+        </label>
+      </div>
+      <div class="actions">
+        <button class="btn" id="btnLangCancel" data-i18n="cancel">取消</button>
+        <button class="btn gold" id="btnLangOk" data-i18n="ok">确定</button>
+      </div>
+    </div>
   </div>
 
-  <!-- 结果输出 -->
-  <button onclick="calculate()">计算结果</button>
-  <div class="result" id="result">结果将在这里显示</div>
+  <!-- Payment Modal -->
+  <div id="paymentModal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="dialog">
+      <h3 class="gold-glow" data-i18n="payment_title">支付方式说明</h3>
+      <div class="divider"></div>
+      <div id="paymentBody" style="line-height:1.6"></div>
+      <div class="actions">
+        <button class="btn gold" id="btnPaymentClose" data-i18n="close">关闭</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Auth/VIP Modal -->
+  <div id="authModal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="dialog">
+      <h3 class="gold-glow" data-i18n="auth_title">账户</h3>
+      <div class="divider"></div>
+      <div id="authBody" style="line-height:1.6"></div>
+      <div class="actions">
+        <button class="btn" id="btnAuthCancel" data-i18n="cancel">取消</button>
+        <button class="btn gold" id="btnAuthAction" data-i18n="ok">确定</button>
+      </div>
+    </div>
+  </div>
 
   <script>
-    function calculate() {
-      let totalFund = parseFloat(document.getElementById("totalFund").value);
-      let direction = document.getElementById("direction").value;
-      let entry = parseFloat(document.getElementById("entry").value);
-      let exit = parseFloat(document.getElementById("exit").value);
-      let positionValue = parseFloat(document.getElementById("positionValue").value);
-      let leverage = parseFloat(document.getElementById("leverage").value);
+    const $ = (id) => document.getElementById(id);
+    const fmt = (n) => {
+      if (!isFinite(n)) return '-';
+      return Number(n).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    };
+    const fmtPct = (n) => isFinite(n) ? `${n.toFixed(2)}%` : '-';
 
-      if (!totalFund || !entry || !exit || !positionValue || !leverage) {
-        document.getElementById("result").innerHTML = "⚠️ 请填写完整参数";
+    const state = {
+      lang: 'zh',
+      theme: 'light',
+    };
+
+    const dict = {
+      zh: {
+        title: '北辰团队高级合约计算器',
+        subtitle: '稳重风格 · 微弱金光',
+        menu: '菜单',
+        menu_auth: '注册 / 登录 / 会员开通',
+        menu_payment: '支付方式说明',
+        menu_language: '语言切换',
+        menu_theme: '主题切换',
+        trade_params: '交易参数',
+        total_fund: '账户总资金 (U)',
+        total_fund_helper: '用于本策略的账户总额',
+        leverage: '杠杆倍数',
+        leverage_helper: '用于推导价格变动幅度',
+        direction: '开仓方向',
+        long: '做多',
+        short: '做空',
+        margin_pct: '使用保证金占总资金 (%)',
+        margin_pct_helper: '用于本次建仓的保证金比例',
+        stop_roe: '止损ROE (%)',
+        stop_roe_helper: '亏损占保证金比例，决定风险金额',
+        rr: '盈亏比 (1:x)',
+        rr_helper: '目标盈利 = 亏损 × x',
+        trigger_roe: '浮盈触发ROE (%)',
+        trigger_roe_helper: '盈利达到该ROE即考虑加仓',
+        add_on_pct: '加仓比例 (%)',
+        add_on_pct_helper: '相对于初始保证金的追加比例',
+        calc: '计算',
+        results: '结果',
+        margin: '保证金',
+        rr_out: '盈亏比',
+        loss_amount: '亏损金额',
+        profit_amount: '目标盈利金额',
+        add_trigger: '加仓触发',
+        add_amount: '加仓金额',
+        choose_lang: '选择语言',
+        ok: '确定',
+        cancel: '取消',
+        close: '关闭',
+        payment_title: '支付方式说明',
+        payment_body: (
+          '<p>支持以下方式：</p>' +
+          '<ul style="margin:0 0 8px 18px">' +
+          '<li>USDT (TRC20/ERC20)</li>' +
+          '<li>银行卡转账</li>' +
+          '<li>支付宝 / 微信</li>' +
+          '</ul>' +
+          '<p>开通会员请联系管理员，或在应用内发起支付。</p>'
+        ),
+        auth_title: '账户',
+        auth_body: (
+          '<p>该功能为演示占位：</p>' +
+          '<ul style="margin:0 0 8px 18px">' +
+          '<li>注册：邮箱 / 手机号</li>' +
+          '<li>登录：密码 / 验证码</li>' +
+          '<li>会员开通：月度 / 季度 / 年度</li>' +
+          '</ul>' +
+          '<p>实际接入第三方认证与支付后生效。</p>'
+        ),
+        notional_sub: (n) => `名义仓位：${n} U`,
+        rr_moves: (s, t) => `止损变动≈${s} / 止盈变动≈${t}`,
+        after_loss: (v) => `亏损后总资金：${v} U`,
+        after_profit: (v) => `盈利后总资金：${v} U`,
+        trigger_desc: (v) => `ROE 达到 ${v} 触发`,
+        add_total: (v) => `加仓后保证金：${v} U`,
+      },
+      en: {
+        title: 'Beichen Advanced Futures Calculator',
+        subtitle: 'Sober style · Subtle gold glow',
+        menu: 'Menu',
+        menu_auth: 'Register / Login / VIP',
+        menu_payment: 'Payment Methods',
+        menu_language: 'Language',
+        menu_theme: 'Theme',
+        trade_params: 'Trade Parameters',
+        total_fund: 'Total Funds (U)',
+        total_fund_helper: 'Total account capital for this strategy',
+        leverage: 'Leverage',
+        leverage_helper: 'Used to infer price moves',
+        direction: 'Direction',
+        long: 'Long',
+        short: 'Short',
+        margin_pct: 'Margin Share of Total (%)',
+        margin_pct_helper: 'Portion of funds used as margin',
+        stop_roe: 'Stop ROE (%)',
+        stop_roe_helper: 'Loss as ROE over margin',
+        rr: 'Risk/Reward (1:x)',
+        rr_helper: 'Target profit = loss × x',
+        trigger_roe: 'Floating Profit Trigger ROE (%)',
+        trigger_roe_helper: 'Add if ROE reaches this level',
+        add_on_pct: 'Add-on Ratio (%)',
+        add_on_pct_helper: 'Additional margin relative to initial',
+        calc: 'Calculate',
+        results: 'Results',
+        margin: 'Margin',
+        rr_out: 'Risk/Reward',
+        loss_amount: 'Loss Amount',
+        profit_amount: 'Target Profit Amount',
+        add_trigger: 'Add-on Trigger',
+        add_amount: 'Add-on Amount',
+        choose_lang: 'Choose Language',
+        ok: 'OK',
+        cancel: 'Cancel',
+        close: 'Close',
+        payment_title: 'Payment Methods',
+        payment_body: (
+          '<p>Supported methods:</p>' +
+          '<ul style="margin:0 0 8px 18px">' +
+          '<li>USDT (TRC20/ERC20)</li>' +
+          '<li>Bank Transfer</li>' +
+          '<li>Alipay / WeChat</li>' +
+          '</ul>' +
+          '<p>Contact admin or initiate payment in-app to activate VIP.</p>'
+        ),
+        auth_title: 'Account',
+        auth_body: (
+          '<p>Demo placeholders:</p>' +
+          '<ul style="margin:0 0 8px 18px">' +
+          '<li>Register: Email / Phone</li>' +
+          '<li>Login: Password / OTP</li>' +
+          '<li>VIP: Monthly / Quarterly / Yearly</li>' +
+          '</ul>' +
+          '<p>Will work after integrating auth and payments.</p>'
+        ),
+        notional_sub: (n) => `Notional: ${n} U`,
+        rr_moves: (s, t) => `Stop move≈${s} / Target move≈${t}`,
+        after_loss: (v) => `Funds after loss: ${v} U`,
+        after_profit: (v) => `Funds after profit: ${v} U`,
+        trigger_desc: (v) => `Trigger when ROE reaches ${v}`,
+        add_total: (v) => `Margin after add-on: ${v} U`,
+      }
+    };
+
+    function applyLang(lang) {
+      state.lang = lang;
+      localStorage.setItem('lang', lang);
+      document.documentElement.lang = lang === 'zh' ? 'zh' : 'en';
+      const d = dict[lang];
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const k = el.getAttribute('data-i18n');
+        if (d[k] && typeof d[k] === 'string') el.textContent = d[k];
+      });
+      // dynamic bodies
+      $('paymentBody').innerHTML = d.payment_body;
+      $('authBody').innerHTML = d.auth_body;
+      // refresh computed subs
+      calculate();
+    }
+
+    function applyTheme(theme) {
+      state.theme = theme;
+      localStorage.setItem('theme', theme);
+      document.documentElement.setAttribute('data-theme', theme);
+      const s = $('themeSwitch');
+      if (s) {
+        if (theme === 'dark') {
+          s.classList.add('on');
+          s.setAttribute('aria-checked', 'true');
+        } else {
+          s.classList.remove('on');
+          s.setAttribute('aria-checked', 'false');
+        }
+      }
+    }
+
+    function openDrawer(open) {
+      $('drawer').classList.toggle('open', open);
+      $('backdrop').classList.toggle('show', open);
+    }
+
+    function openModal(id, open) {
+      $(id).classList.toggle('hidden', !open);
+      $('backdrop').classList.toggle('show', open);
+    }
+
+    function readNum(id) {
+      const v = parseFloat($(id).value);
+      return isFinite(v) ? v : 0;
+    }
+
+    function calculate() {
+      const d = dict[state.lang];
+      const totalFunds = readNum('totalFunds');
+      const leverage = Math.max(1, Math.floor(readNum('leverage')));
+      const direction = $('direction').value;
+      const marginPct = Math.max(0, readNum('marginPct')) / 100;
+      const riskRoe = Math.max(0, readNum('riskRoe')) / 100;
+      const rrX = Math.max(0, readNum('rrX'));
+      const triggerRoe = Math.max(0, readNum('triggerRoe')) / 100;
+      const addOnPct = Math.max(0, readNum('addOnPct')) / 100;
+
+      if (!isFinite(totalFunds) || totalFunds <= 0) {
+        ['outMargin','outNotional','outRR','outMoves','outLoss','outAfterLoss','outProfit','outAfterProfit','outTrigger','outAddOn','outAddOnNote','outAddOnTotal'].forEach(id=>$(id).textContent='-');
         return;
       }
 
-      // 保证金 = 名义价值 / 杠杆
-      let margin = positionValue / leverage;
+      const margin = totalFunds * marginPct;
+      const notional = margin * leverage;
 
-      // 基础盈亏
-      let pnl = (direction === "long" ? (exit - entry) : (entry - exit)) * (positionValue / entry);
+      const lossAmount = margin * riskRoe; // loss in U
+      const profitAmount = lossAmount * rrX; // target profit in U
 
-      // 分批止盈止损加权
-      let tp1 = parseFloat(document.getElementById("tp1").value);
-      let tp1_pct = parseFloat(document.getElementById("tp1_pct").value) || 0;
-      let tp2 = parseFloat(document.getElementById("tp2").value);
-      let tp2_pct = parseFloat(document.getElementById("tp2_pct").value) || 0;
-      let sl = parseFloat(document.getElementById("sl").value);
-      let sl_pct = parseFloat(document.getElementById("sl_pct").value) || 0;
+      const stopMovePct = leverage > 0 ? (riskRoe * 100) / leverage : 0; // price move %
+      const targetMovePct = leverage > 0 ? (riskRoe * rrX * 100) / leverage : 0;
 
-      let weightedPnl = pnl;
-      if (tp1 && tp1_pct) weightedPnl = (tp1 - entry) * (positionValue / entry) * (tp1_pct / 100);
-      if (tp2 && tp2_pct) weightedPnl += (tp2 - entry) * (positionValue / entry) * (tp2_pct / 100);
-      if (sl && sl_pct) weightedPnl -= (entry - sl) * (positionValue / entry) * (sl_pct / 100);
+      const triggerProfit = margin * triggerRoe;
+      const addOnAmount = margin * addOnPct;
+      const marginAfterAdd = margin + addOnAmount;
 
-      // 结果输出
-      document.getElementById("result").innerHTML = `
-        📊 结果计算：<br>
-        名义仓位：<b>${positionValue.toFixed(2)} U</b><br>
-        保证金：<b>${margin.toFixed(2)} U</b><br>
-        预估盈亏：<b>${pnl.toFixed(2)} U</b><br>
-        分批策略盈亏：<b>${weightedPnl.toFixed(2)} U</b><br>
-        风险比例：<b>${(margin / totalFund * 100).toFixed(2)}%</b>
-      `;
+      const afterLossFunds = totalFunds - lossAmount;
+      const afterProfitFunds = totalFunds + profitAmount;
+
+      $('outMargin').textContent = `${fmt(margin)} U`;
+      $('outNotional').textContent = d.notional_sub(fmt(notional));
+      $('outRR').textContent = `1 : ${fmt(rrX)}`;
+      const stopStr = `${direction==='long'?'+':'-'}${fmtPct(stopMovePct)}`;
+      const targetStr = `${direction==='long'?'+':'-'}${fmtPct(targetMovePct)}`;
+      $('outMoves').textContent = d.rr_moves(stopStr, targetStr);
+
+      $('outLoss').textContent = `- ${fmt(lossAmount)} U`;
+      $('outAfterLoss').textContent = d.after_loss(fmt(afterLossFunds));
+      $('outProfit').textContent = `+ ${fmt(profitAmount)} U`;
+      $('outAfterProfit').textContent = d.after_profit(fmt(afterProfitFunds));
+
+      $('outTrigger').textContent = `${fmt(triggerProfit)} U`;
+      $('outAddOn').textContent = `${fmt(addOnAmount)} U`;
+      $('outAddOnNote').textContent = d.trigger_desc(fmtPct(triggerRoe*100));
+      $('outAddOnTotal').textContent = d.add_total(fmt(marginAfterAdd));
     }
+
+    // Events
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedLang = localStorage.getItem('lang');
+      const savedTheme = localStorage.getItem('theme');
+      applyLang(savedLang || 'zh');
+      applyTheme(savedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+
+      // Set radio group
+      const radios = document.querySelectorAll('input[name="lang"][type="radio"]');
+      radios.forEach(r => { r.checked = r.value === state.lang; });
+
+      // Drawer
+      $('btnMenu').addEventListener('click', () => openDrawer(true));
+      $('backdrop').addEventListener('click', () => { openDrawer(false); openModal('langModal', false); openModal('paymentModal', false); openModal('authModal', false); });
+
+      // Menu actions
+      $('menuAuth').addEventListener('click', () => { openDrawer(false); openModal('authModal', true); });
+      $('menuPayment').addEventListener('click', () => { openDrawer(false); openModal('paymentModal', true); });
+      $('menuLang').addEventListener('click', () => { openDrawer(false); openModal('langModal', true); });
+      $('themeSwitch').addEventListener('click', () => applyTheme(state.theme === 'dark' ? 'light' : 'dark'));
+
+      // Language modal buttons
+      $('btnLangCancel').addEventListener('click', () => openModal('langModal', false));
+      $('btnLangOk').addEventListener('click', () => {
+        const checked = document.querySelector('input[name="lang"]:checked');
+        applyLang(checked ? checked.value : 'zh');
+        openModal('langModal', false);
+      });
+
+      // Payment and Auth close/actions
+      $('btnPaymentClose').addEventListener('click', () => openModal('paymentModal', false));
+      $('btnAuthCancel').addEventListener('click', () => openModal('authModal', false));
+      $('btnAuthAction').addEventListener('click', () => openModal('authModal', false));
+
+      // Calculate
+      $('btnCalc').addEventListener('click', calculate);
+      ['totalFunds','leverage','direction','marginPct','riskRoe','rrX','triggerRoe','addOnPct'].forEach(id => $(id).addEventListener('input', calculate));
+
+      calculate();
+    });
   </script>
 </body>
 </html>
