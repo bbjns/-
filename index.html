@@ -221,6 +221,11 @@
             <option value="short" data-i18n="short">做空</option>
           </select>
         </div>
+        <div class="col-6">
+          <label data-i18n="entry_price">开仓价</label>
+          <input id="entryPrice" type="number" min="0" step="0.0001" />
+          <div class="helper" data-i18n="entry_price_helper">用于推导止损/止盈价格</div>
+        </div>
 
         <div class="col-6">
           <label data-i18n="margin_pct">使用保证金占总资金 (%)</label>
@@ -241,6 +246,12 @@
         </div>
 
         <div class="col-6">
+          <label data-i18n="fee_rate">手续费率 (单边, %)</label>
+          <input id="feeRate" type="number" min="0" step="0.001" value="0.06" />
+          <div class="helper" data-i18n="fee_rate_helper">按名义仓位计费；开平各一次</div>
+        </div>
+
+        <div class="col-6">
           <label data-i18n="trigger_roe">浮盈触发ROE (%)</label>
           <input id="triggerRoe" type="number" min="0" max="1000" step="0.1" value="3" />
           <div class="helper" data-i18n="trigger_roe_helper">盈利达到该ROE即考虑加仓</div>
@@ -250,6 +261,12 @@
           <label data-i18n="add_on_pct">加仓比例 (%)</label>
           <input id="addOnPct" type="number" min="0" max="100" step="0.1" value="25" />
           <div class="helper" data-i18n="add_on_pct_helper">相对于初始保证金的追加比例</div>
+        </div>
+
+        <div class="col-6">
+          <label data-i18n="rounds">复利次数</label>
+          <input id="rounds" type="number" min="0" step="1" value="5" />
+          <div class="helper" data-i18n="rounds_helper">连续N次同一结果的模拟</div>
         </div>
 
         <div class="col-12">
@@ -272,6 +289,11 @@
           <div class="sub" id="outMoves">-</div>
         </div>
         <div class="stat">
+          <h4 data-i18n="price_path">价格路径</h4>
+          <div class="v" id="outEntry">-</div>
+          <div class="sub" id="outPricesSub">-</div>
+        </div>
+        <div class="stat">
           <h4 data-i18n="loss_amount">亏损金额</h4>
           <div class="v" id="outLoss">-</div>
           <div class="sub" id="outAfterLoss">-</div>
@@ -290,6 +312,21 @@
           <h4 data-i18n="add_amount">加仓金额</h4>
           <div class="v" id="outAddOn">-</div>
           <div class="sub" id="outAddOnTotal">-</div>
+        </div>
+        <div class="stat">
+          <h4 data-i18n="fees">手续费</h4>
+          <div class="v" id="outFees">-</div>
+          <div class="sub" id="outFeesNote">-</div>
+        </div>
+        <div class="stat">
+          <h4 data-i18n="compound_win">复利(全赢)</h4>
+          <div class="v" id="outCompoundWin">-</div>
+          <div class="sub" id="outCompoundWinRoi">-</div>
+        </div>
+        <div class="stat">
+          <h4 data-i18n="compound_loss">复利(全亏)</h4>
+          <div class="v" id="outCompoundLoss">-</div>
+          <div class="sub" id="outCompoundLossRoi">-</div>
         </div>
       </div>
     </div>
@@ -376,6 +413,12 @@
         stop_roe_helper: '亏损占保证金比例，决定风险金额',
         rr: '盈亏比 (1:x)',
         rr_helper: '目标盈利 = 亏损 × x',
+        entry_price: '开仓价',
+        entry_price_helper: '用于推导止损/止盈价格',
+        fee_rate: '手续费率 (单边, %)',
+        fee_rate_helper: '按名义仓位计费；开平各一次',
+        rounds: '复利次数',
+        rounds_helper: '连续N次同一结果的模拟',
         trigger_roe: '浮盈触发ROE (%)',
         trigger_roe_helper: '盈利达到该ROE即考虑加仓',
         add_on_pct: '加仓比例 (%)',
@@ -384,6 +427,7 @@
         results: '结果',
         margin: '保证金',
         rr_out: '盈亏比',
+        price_path: '价格路径',
         loss_amount: '亏损金额',
         profit_amount: '目标盈利金额',
         add_trigger: '加仓触发',
@@ -392,6 +436,10 @@
         ok: '确定',
         cancel: '取消',
         close: '关闭',
+        fees: '手续费',
+        fees_note: '按单边费率 × 2 计算',
+        compound_win: '复利(全赢)',
+        compound_loss: '复利(全亏)',
         payment_title: '支付方式说明',
         payment_body: (
           '<p>支持以下方式：</p>' +
@@ -414,10 +462,15 @@
         ),
         notional_sub: (n) => `名义仓位：${n} U`,
         rr_moves: (s, t) => `止损变动≈${s} / 止盈变动≈${t}`,
+        entry_label: '开仓价',
+        stop_price: '止损价',
+        target_price: '止盈价',
         after_loss: (v) => `亏损后总资金：${v} U`,
         after_profit: (v) => `盈利后总资金：${v} U`,
         trigger_desc: (v) => `ROE 达到 ${v} 触发`,
         add_total: (v) => `加仓后保证金：${v} U`,
+        final_funds: (v) => `期末资金：${v} U`,
+        roi: (v) => `收益率：${v}`,
       },
       en: {
         title: 'Beichen Advanced Futures Calculator',
@@ -441,6 +494,12 @@
         stop_roe_helper: 'Loss as ROE over margin',
         rr: 'Risk/Reward (1:x)',
         rr_helper: 'Target profit = loss × x',
+        entry_price: 'Entry Price',
+        entry_price_helper: 'Derives stop/target prices',
+        fee_rate: 'Fee Rate (per side, %)',
+        fee_rate_helper: 'Charged on notional; open and close',
+        rounds: 'Compound Rounds',
+        rounds_helper: 'Simulate N identical outcomes',
         trigger_roe: 'Floating Profit Trigger ROE (%)',
         trigger_roe_helper: 'Add if ROE reaches this level',
         add_on_pct: 'Add-on Ratio (%)',
@@ -449,6 +508,7 @@
         results: 'Results',
         margin: 'Margin',
         rr_out: 'Risk/Reward',
+        price_path: 'Price Path',
         loss_amount: 'Loss Amount',
         profit_amount: 'Target Profit Amount',
         add_trigger: 'Add-on Trigger',
@@ -457,6 +517,10 @@
         ok: 'OK',
         cancel: 'Cancel',
         close: 'Close',
+        fees: 'Fees',
+        fees_note: 'Computed as per-side × 2',
+        compound_win: 'Compounding (all wins)',
+        compound_loss: 'Compounding (all losses)',
         payment_title: 'Payment Methods',
         payment_body: (
           '<p>Supported methods:</p>' +
@@ -479,10 +543,15 @@
         ),
         notional_sub: (n) => `Notional: ${n} U`,
         rr_moves: (s, t) => `Stop move≈${s} / Target move≈${t}`,
+        entry_label: 'Entry',
+        stop_price: 'Stop',
+        target_price: 'Target',
         after_loss: (v) => `Funds after loss: ${v} U`,
         after_profit: (v) => `Funds after profit: ${v} U`,
         trigger_desc: (v) => `Trigger when ROE reaches ${v}`,
         add_total: (v) => `Margin after add-on: ${v} U`,
+        final_funds: (v) => `Final funds: ${v} U`,
+        roi: (v) => `ROI: ${v}`,
       }
     };
 
@@ -543,6 +612,9 @@
       const rrX = Math.max(0, readNum('rrX'));
       const triggerRoe = Math.max(0, readNum('triggerRoe')) / 100;
       const addOnPct = Math.max(0, readNum('addOnPct')) / 100;
+      const entry = Math.max(0, readNum('entryPrice'));
+      const feeRate = Math.max(0, readNum('feeRate')) / 100; // per side
+      const rounds = Math.max(0, Math.floor(readNum('rounds')));
 
       if (!isFinite(totalFunds) || totalFunds <= 0) {
         ['outMargin','outNotional','outRR','outMoves','outLoss','outAfterLoss','outProfit','outAfterProfit','outTrigger','outAddOn','outAddOnNote','outAddOnTotal'].forEach(id=>$(id).textContent='-');
@@ -555,32 +627,79 @@
       const lossAmount = margin * riskRoe; // loss in U
       const profitAmount = lossAmount * rrX; // target profit in U
 
-      const stopMovePct = leverage > 0 ? (riskRoe * 100) / leverage : 0; // price move %
+      const stopMovePct = leverage > 0 ? (riskRoe * 100) / leverage : 0; // % magnitude
       const targetMovePct = leverage > 0 ? (riskRoe * rrX * 100) / leverage : 0;
 
       const triggerProfit = margin * triggerRoe;
       const addOnAmount = margin * addOnPct;
       const marginAfterAdd = margin + addOnAmount;
 
-      const afterLossFunds = totalFunds - lossAmount;
-      const afterProfitFunds = totalFunds + profitAmount;
+      // Fees per trade (open + close)
+      const feePerTrade = notional * feeRate * 2;
+
+      const netLoss = lossAmount + feePerTrade;
+      const netProfit = profitAmount - feePerTrade;
+
+      const afterLossFunds = totalFunds - netLoss;
+      const afterProfitFunds = totalFunds + netProfit;
 
       $('outMargin').textContent = `${fmt(margin)} U`;
       $('outNotional').textContent = d.notional_sub(fmt(notional));
       $('outRR').textContent = `1 : ${fmt(rrX)}`;
-      const stopStr = `${direction==='long'?'+':'-'}${fmtPct(stopMovePct)}`;
+      const stopStr = `${direction==='long'?'-':'+'}${fmtPct(stopMovePct)}`;
       const targetStr = `${direction==='long'?'+':'-'}${fmtPct(targetMovePct)}`;
       $('outMoves').textContent = d.rr_moves(stopStr, targetStr);
 
-      $('outLoss').textContent = `- ${fmt(lossAmount)} U`;
+      // Price path from entry
+      if (entry > 0) {
+        const stopFrac = (direction==='long' ? -1 : 1) * (stopMovePct/100);
+        const targetFrac = (direction==='long' ? 1 : -1) * (targetMovePct/100);
+        const stopPrice = entry * (1 + stopFrac);
+        const targetPrice = entry * (1 + targetFrac);
+        $('outEntry').textContent = `${fmt(entry)} U`;
+        $('outPricesSub').textContent = `${d.stop_price}：${fmt(stopPrice)} U · ${d.target_price}：${fmt(targetPrice)} U`;
+      } else {
+        $('outEntry').textContent = '-';
+        $('outPricesSub').textContent = '-';
+      }
+
+      // Fees output
+      $('outFees').textContent = `${fmt(feePerTrade)} U`;
+      $('outFeesNote').textContent = d.fees_note;
+
+      $('outLoss').textContent = `- ${fmt(netLoss)} U`;
       $('outAfterLoss').textContent = d.after_loss(fmt(afterLossFunds));
-      $('outProfit').textContent = `+ ${fmt(profitAmount)} U`;
+      $('outProfit').textContent = `+ ${fmt(netProfit)} U`;
       $('outAfterProfit').textContent = d.after_profit(fmt(afterProfitFunds));
 
       $('outTrigger').textContent = `${fmt(triggerProfit)} U`;
       $('outAddOn').textContent = `${fmt(addOnAmount)} U`;
       $('outAddOnNote').textContent = d.trigger_desc(fmtPct(triggerRoe*100));
       $('outAddOnTotal').textContent = d.add_total(fmt(marginAfterAdd));
+
+      // Compounding simulation (all wins / all losses)
+      function simulate(funds, rounds, win) {
+        let f = funds;
+        for (let i = 0; i < rounds; i++) {
+          const m = f * marginPct;
+          const n = m * leverage;
+          const fee = n * feeRate * 2;
+          if (win) {
+            f += m * riskRoe * rrX - fee;
+          } else {
+            f -= m * riskRoe + fee;
+          }
+        }
+        return f;
+      }
+      const finalWin = simulate(totalFunds, rounds, true);
+      const finalLoss = simulate(totalFunds, rounds, false);
+      const roiWin = totalFunds > 0 ? ((finalWin / totalFunds) - 1) * 100 : 0;
+      const roiLoss = totalFunds > 0 ? ((finalLoss / totalFunds) - 1) * 100 : 0;
+      $('outCompoundWin').textContent = `${fmt(finalWin)} U`;
+      $('outCompoundWinRoi').textContent = d.roi(fmtPct(roiWin));
+      $('outCompoundLoss').textContent = `${fmt(finalLoss)} U`;
+      $('outCompoundLossRoi').textContent = d.roi(fmtPct(roiLoss));
     }
 
     // Events
@@ -619,7 +738,7 @@
 
       // Calculate
       $('btnCalc').addEventListener('click', calculate);
-      ['totalFunds','leverage','direction','marginPct','riskRoe','rrX','triggerRoe','addOnPct'].forEach(id => $(id).addEventListener('input', calculate));
+      ['totalFunds','leverage','direction','entryPrice','marginPct','riskRoe','rrX','feeRate','triggerRoe','addOnPct','rounds'].forEach(id => $(id).addEventListener('input', calculate));
 
       calculate();
     });
