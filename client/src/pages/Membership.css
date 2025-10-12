@@ -1,0 +1,225 @@
+.membership-page {
+  max-width: 1200px;
+}
+
+.membership-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+/* Current Plan */
+.current-plan h2,
+.upgrade-section h2 {
+  font-size: 24px;
+  margin-bottom: 24px;
+  color: var(--text-primary);
+}
+
+.plan-info {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 24px;
+  background-color: var(--bg-tertiary);
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+
+.plan-status {
+  display: flex;
+  justify-content: center;
+}
+
+.plan-badge {
+  padding: 12px 32px;
+  border-radius: 24px;
+  font-size: 18px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.plan-badge.free {
+  background-color: var(--bg-secondary);
+  color: var(--text-secondary);
+  border: 2px solid var(--border-color);
+}
+
+.plan-badge.premium {
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  color: white;
+  box-shadow: 0 4px 12px rgba(76, 110, 245, 0.3);
+}
+
+.expire-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--text-secondary);
+}
+
+.expire-date {
+  color: var(--accent-primary);
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.benefits {
+  margin-top: 24px;
+}
+
+.benefits h3 {
+  font-size: 18px;
+  margin-bottom: 16px;
+  color: var(--text-primary);
+}
+
+.benefits ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.benefits li {
+  padding: 12px;
+  margin-bottom: 8px;
+  background-color: var(--bg-tertiary);
+  border-radius: 8px;
+  color: var(--text-secondary);
+  transition: var(--transition);
+}
+
+.benefits li.active {
+  background-color: rgba(76, 110, 245, 0.1);
+  color: var(--accent-primary);
+  border-left: 4px solid var(--accent-primary);
+}
+
+/* Upgrade Section */
+.duration-selector {
+  margin-bottom: 30px;
+}
+
+.duration-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.duration-option {
+  padding: 20px;
+  background-color: var(--bg-tertiary);
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.duration-option:hover {
+  border-color: var(--accent-primary);
+  transform: translateY(-2px);
+}
+
+.duration-option.selected {
+  border-color: var(--accent-primary);
+  background-color: rgba(76, 110, 245, 0.1);
+}
+
+.duration-label {
+  font-size: 16px;
+  color: var(--text-primary);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.duration-price {
+  font-size: 24px;
+  color: var(--accent-primary);
+  font-weight: 700;
+}
+
+.payment-method h3 {
+  font-size: 18px;
+  margin-bottom: 16px;
+  color: var(--text-primary);
+}
+
+.payment-options {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+.payment-option {
+  flex: 1;
+  padding: 16px;
+  background-color: var(--bg-tertiary);
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.payment-option:hover {
+  border-color: var(--accent-primary);
+}
+
+.payment-option.selected {
+  border-color: var(--accent-primary);
+  background-color: rgba(76, 110, 245, 0.1);
+}
+
+.payment-option input[type="radio"] {
+  width: 18px;
+  height: 18px;
+}
+
+.payment-option span {
+  font-size: 16px;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.payment-summary {
+  padding: 20px;
+  background-color: var(--bg-tertiary);
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  color: var(--text-primary);
+}
+
+.summary-row .amount {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--accent-primary);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .membership-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .duration-options {
+    grid-template-columns: 1fr;
+  }
+
+  .payment-options {
+    flex-direction: column;
+  }
+}
