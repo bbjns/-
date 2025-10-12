@@ -1,0 +1,29 @@
+{
+  "short_name": "投机计算器",
+  "name": "投机计算器 - 北辰团队专注量化风险管理",
+  "description": "专业的金融衍生品交易计算工具，支持浮盈加仓、复利计算、风险管理等功能。",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "logo192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "logo512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#0ea5e9",
+  "background_color": "#ffffff",
+  "orientation": "portrait-primary",
+  "categories": ["finance", "business", "productivity"],
+  "lang": "zh-CN"
+}
