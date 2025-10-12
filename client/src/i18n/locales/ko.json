@@ -1,0 +1,116 @@
+{
+  "app": {
+    "title": "투기 계산기",
+    "subtitle": "북진팀 양적 리스크 관리 전문",
+    "description": "기본 계산, 피라미드 추가, 복리 계산 등 기능을 지원하는 전문 투기 계산기"
+  },
+  "nav": {
+    "home": "홈",
+    "calculator": "계산기",
+    "history": "기록",
+    "profile": "프로필",
+    "login": "로그인",
+    "register": "회원가입",
+    "logout": "로그아웃"
+  },
+  "calculator": {
+    "basic": "기본 계산",
+    "pyramid": "피라미드 추가",
+    "compound": "복리 계산",
+    "totalFunds": "총 자금",
+    "leverage": "레버리지",
+    "direction": "방향",
+    "long": "롱",
+    "short": "숏",
+    "entryPrice": "진입가",
+    "riskRatio": "리스크 비율",
+    "feeRate": "수수료율",
+    "stopLossPrice": "손절가",
+    "profitLossRatio": "손익비",
+    "profitTrigger": "수익 트리거(%)",
+    "addPositionRatio": "추가 포지션 비율(%)",
+    "profitRate": "수익률(%)",
+    "rounds": "복리 라운드",
+    "calculate": "계산",
+    "reset": "초기화"
+  },
+  "results": {
+    "basic": {
+      "title": "기본 계산 결과",
+      "stopLossPrice": "손절가",
+      "takeProfitPrice": "익절가",
+      "positionValue": "포지션 크기",
+      "marginRequired": "필요 마진",
+      "fees": "수수료",
+      "profitLoss": "손익",
+      "riskRatio": "리스크 비율",
+      "nominalPositionValue": "명목 포지션 가치"
+    },
+    "pyramid": {
+      "title": "피라미드 추가 결과",
+      "triggerPrice": "추가 트리거 가격",
+      "newCostPrice": "새로운 평균가",
+      "additionalPositionValue": "추가 포지션",
+      "additionalMargin": "추가 마진",
+      "additionalFees": "추가 수수료",
+      "newStopLossPrice": "새 손절가",
+      "newTakeProfitPrice": "새 익절가",
+      "newRiskRatio": "새 리스크 비율",
+      "totalPositionValue": "총 포지션 가치"
+    },
+    "compound": {
+      "title": "복리 계산 결과",
+      "round": "라운드",
+      "totalFunds": "총 자금",
+      "profit": "라운드 수익",
+      "cumulativeProfit": "누적 수익"
+    }
+  },
+  "auth": {
+    "login": "로그인",
+    "register": "회원가입",
+    "email": "이메일",
+    "password": "비밀번호",
+    "username": "사용자명",
+    "confirmPassword": "비밀번호 확인",
+    "forgotPassword": "비밀번호를 잊으셨나요?",
+    "noAccount": "계정이 없으신가요?",
+    "hasAccount": "이미 계정이 있으신가요?",
+    "loginSuccess": "로그인 성공",
+    "registerSuccess": "회원가입 성공",
+    "logoutSuccess": "로그아웃 성공"
+  },
+  "membership": {
+    "free": "무료 사용자",
+    "premium": "프리미엄 회원",
+    "vip": "VIP 회원",
+    "upgrade": "업그레이드",
+    "renew": "갱신",
+    "expires": "만료 시간",
+    "features": "기능"
+  },
+  "payment": {
+    "selectPlan": "플랜 선택",
+    "paymentMethod": "결제 방법",
+    "usdt": "USDT",
+    "alipay": "알리페이",
+    "amount": "금액",
+    "payNow": "지금 결제",
+    "paymentSuccess": "결제 성공",
+    "paymentFailed": "결제 실패"
+  },
+  "common": {
+    "save": "저장",
+    "cancel": "취소",
+    "confirm": "확인",
+    "delete": "삭제",
+    "edit": "편집",
+    "view": "보기",
+    "close": "닫기",
+    "loading": "로딩 중...",
+    "success": "성공",
+    "error": "오류",
+    "warning": "경고",
+    "info": "정보"
+  }
+}
