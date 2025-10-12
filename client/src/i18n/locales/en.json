@@ -1,0 +1,116 @@
+{
+  "app": {
+    "title": "Speculation Calculator",
+    "subtitle": "Beichen Team Focus on Quantitative Risk Management",
+    "description": "Professional speculation calculator with basic calculation, pyramid adding, compound calculation and more"
+  },
+  "nav": {
+    "home": "Home",
+    "calculator": "Calculator",
+    "history": "History",
+    "profile": "Profile",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout"
+  },
+  "calculator": {
+    "basic": "Basic Calculation",
+    "pyramid": "Pyramid Adding",
+    "compound": "Compound Calculation",
+    "totalFunds": "Total Funds",
+    "leverage": "Leverage",
+    "direction": "Direction",
+    "long": "Long",
+    "short": "Short",
+    "entryPrice": "Entry Price",
+    "riskRatio": "Risk Ratio",
+    "feeRate": "Fee Rate",
+    "stopLossPrice": "Stop Loss Price",
+    "profitLossRatio": "Profit/Loss Ratio",
+    "profitTrigger": "Profit Trigger(%)",
+    "addPositionRatio": "Add Position Ratio(%)",
+    "profitRate": "Profit Rate(%)",
+    "rounds": "Compound Rounds",
+    "calculate": "Calculate",
+    "reset": "Reset"
+  },
+  "results": {
+    "basic": {
+      "title": "Basic Calculation Results",
+      "stopLossPrice": "Stop Loss Price",
+      "takeProfitPrice": "Take Profit Price",
+      "positionValue": "Position Size",
+      "marginRequired": "Margin Required",
+      "fees": "Fees",
+      "profitLoss": "P&L",
+      "riskRatio": "Risk Ratio",
+      "nominalPositionValue": "Nominal Position Value"
+    },
+    "pyramid": {
+      "title": "Pyramid Adding Results",
+      "triggerPrice": "Add Trigger Price",
+      "newCostPrice": "New Cost Price",
+      "additionalPositionValue": "Additional Position",
+      "additionalMargin": "Additional Margin",
+      "additionalFees": "Additional Fees",
+      "newStopLossPrice": "New Stop Loss",
+      "newTakeProfitPrice": "New Take Profit",
+      "newRiskRatio": "New Risk Ratio",
+      "totalPositionValue": "Total Position Value"
+    },
+    "compound": {
+      "title": "Compound Calculation Results",
+      "round": "Round",
+      "totalFunds": "Total Funds",
+      "profit": "Round Profit",
+      "cumulativeProfit": "Cumulative Profit"
+    }
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "username": "Username",
+    "confirmPassword": "Confirm Password",
+    "forgotPassword": "Forgot Password?",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "loginSuccess": "Login successful",
+    "registerSuccess": "Registration successful",
+    "logoutSuccess": "Logout successful"
+  },
+  "membership": {
+    "free": "Free User",
+    "premium": "Premium Member",
+    "vip": "VIP Member",
+    "upgrade": "Upgrade",
+    "renew": "Renew",
+    "expires": "Expires",
+    "features": "Features"
+  },
+  "payment": {
+    "selectPlan": "Select Plan",
+    "paymentMethod": "Payment Method",
+    "usdt": "USDT",
+    "alipay": "Alipay",
+    "amount": "Amount",
+    "payNow": "Pay Now",
+    "paymentSuccess": "Payment successful",
+    "paymentFailed": "Payment failed"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "close": "Close",
+    "loading": "Loading...",
+    "success": "Success",
+    "error": "Error",
+    "warning": "Warning",
+    "info": "Info"
+  }
+}

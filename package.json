@@ -1,0 +1,23 @@
+{
+  "name": "speculation-calculator",
+  "version": "1.0.0",
+  "description": "投机计算器 - 北辰团队专注量化风险管理",
+  "main": "server/index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
+    "server:dev": "cd server && npm run dev",
+    "client:dev": "cd client && npm run dev",
+    "mobile:dev": "cd mobile && npm run dev",
+    "build": "npm run client:build && npm run mobile:build",
+    "client:build": "cd client && npm run build",
+    "mobile:build": "cd mobile && npm run build",
+    "start": "cd server && npm start",
+    "install:all": "npm install && cd server && npm install && cd ../client && npm install && cd ../mobile && npm install"
+  },
+  "keywords": ["calculator", "trading", "speculation", "finance"],
+  "author": "北辰团队",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
