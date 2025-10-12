@@ -1,0 +1,207 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+
+/* CSS变量定义 */
+:root {
+  --color-primary: rgb(14, 165, 233);
+  --color-secondary: rgb(59, 130, 246);
+  --color-accent: rgb(99, 102, 241);
+  --color-background: rgb(248, 250, 252);
+  --color-surface: rgb(255, 255, 255);
+  --color-text: rgb(15, 23, 42);
+  --color-text-secondary: rgb(71, 85, 105);
+}
+
+/* 主题样式 */
+.theme-classic {
+  --color-primary: rgb(14, 165, 233);
+  --color-secondary: rgb(59, 130, 246);
+  --color-accent: rgb(99, 102, 241);
+  --color-background: rgb(248, 250, 252);
+  --color-surface: rgb(255, 255, 255);
+  --color-text: rgb(15, 23, 42);
+  --color-text-secondary: rgb(71, 85, 105);
+}
+
+.theme-dark {
+  --color-primary: rgb(168, 162, 158);
+  --color-secondary: rgb(120, 113, 108);
+  --color-accent: rgb(245, 158, 11);
+  --color-background: rgb(15, 23, 42);
+  --color-surface: rgb(30, 41, 59);
+  --color-text: rgb(248, 250, 252);
+  --color-text-secondary: rgb(148, 163, 184);
+}
+
+.theme-gold {
+  --color-primary: rgb(245, 158, 11);
+  --color-secondary: rgb(217, 119, 6);
+  --color-accent: rgb(180, 83, 9);
+  --color-background: rgb(255, 251, 235);
+  --color-surface: rgb(255, 255, 255);
+  --color-text: rgb(120, 53, 15);
+  --color-text-secondary: rgb(146, 64, 14);
+}
+
+/* 基础样式 */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(241, 245, 249);
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: rgb(30, 41, 59);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(203, 213, 225);
+  border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgb(71, 85, 105);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(148, 163, 184);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgb(100, 116, 139);
+}
+
+/* 自定义组件样式 */
+.gradient-text {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glass-effect {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark .glass-effect {
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid rgba(71, 85, 105, 0.2);
+}
+
+/* 动画效果 */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.float-animation {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* 表单样式增强 */
+.form-input {
+  @apply w-full px-4 py-3 border border-gray-300 dark:border-dark-600 rounded-lg;
+  @apply focus:ring-2 focus:ring-primary-500 focus:border-transparent;
+  @apply bg-white dark:bg-dark-700 text-gray-900 dark:text-white;
+  @apply transition-all duration-200;
+}
+
+.form-input:focus {
+  box-shadow: 0 0 0 3px rgba(var(--color-primary), 0.1);
+}
+
+/* 按钮样式 */
+.btn-primary {
+  @apply bg-primary-600 hover:bg-primary-700 text-white font-medium py-3 px-6 rounded-lg;
+  @apply transition-all duration-200 transform hover:scale-105;
+  @apply focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+}
+
+.btn-secondary {
+  @apply bg-gray-200 dark:bg-dark-600 hover:bg-gray-300 dark:hover:bg-dark-500;
+  @apply text-gray-900 dark:text-white font-medium py-3 px-6 rounded-lg;
+  @apply transition-all duration-200;
+}
+
+/* 卡片样式 */
+.card {
+  @apply bg-white dark:bg-dark-800 rounded-xl shadow-lg;
+  @apply border border-gray-200 dark:border-dark-700;
+  @apply transition-all duration-200;
+}
+
+.card:hover {
+  @apply shadow-xl;
+  transform: translateY(-2px);
+}
+
+/* 响应式工具类 */
+@media (max-width: 768px) {
+  .mobile-padding {
+    @apply px-4;
+  }
+  
+  .mobile-text {
+    @apply text-sm;
+  }
+}
+
+/* 打印样式 */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .print-break {
+    page-break-after: always;
+  }
+}
+
+/* 高对比度模式 */
+@media (prefers-contrast: high) {
+  .card {
+    @apply border-2 border-gray-900 dark:border-white;
+  }
+  
+  .btn-primary {
+    @apply border-2 border-white;
+  }
+}
+
+/* 减少动画模式 */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
