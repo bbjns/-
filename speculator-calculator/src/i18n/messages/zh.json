@@ -1,0 +1,73 @@
+{
+  "app": {
+    "name": "投机计算器",
+    "signature": "北辰团队专注量化.风险管理",
+    "brand": "投机计算器"
+  },
+  "nav": {
+    "calculator": "计算器",
+    "pricing": "会员",
+    "account": "我的账户",
+    "admin": "后台管理"
+  },
+  "auth": {
+    "login": "登录",
+    "logout": "退出登录",
+    "register": "注册",
+    "email": "邮箱",
+    "password": "密码",
+    "haveAccount": "已有账号? 去登录",
+    "noAccount": "没有账号? 去注册"
+  },
+  "theme": {
+    "label": "主题",
+    "classic": "经典蓝",
+    "darkgold": "暗金",
+    "terminal": "终端绿"
+  },
+  "lang": {"zh": "中文", "en": "英文", "ko": "韩文"},
+  "calculator": {
+    "title": "合约计算器",
+    "totalCapital": "账户总资金",
+    "leverage": "杠杆",
+    "side": "方向",
+    "long": "做多",
+    "short": "做空",
+    "entryPrice": "开仓价",
+    "riskPercent": "风险占比(%)",
+    "feePercent": "手续费估算(%)",
+    "mode": "止损/盈亏比",
+    "stopPrice": "止损价",
+    "rr": "盈亏比(1:x)",
+    "tpPrice": "止盈价",
+    "chooseRR": "选择盈亏比时需输入止盈价",
+    "addOn": "浮盈加仓",
+    "profitTrigger": "浮盈触发(占总资金%)",
+    "addPercent": "加仓比例(占总资金%)",
+    "compound": "复利计算",
+    "rounds": "轮数",
+    "roiPerRound": "每轮收益率(%)",
+    "compute": "开始计算",
+    "results": "计算结果",
+    "base": "基础计算",
+    "addOnCalc": "浮盈加仓计算",
+    "compoundCalc": "复利计算",
+    "slPrice": "止损价",
+    "tpPriceOut": "止盈价",
+    "marginUsed": "开仓占用资金",
+    "fees": "手续费",
+    "pnlClose": "平仓盈亏",
+    "riskUsed": "风险占比",
+    "notional": "名义仓位价值",
+    "addTriggerPrice": "加仓触发价",
+    "avgEntryAfter": "加仓后成本价",
+    "addNotional": "名义加仓价值",
+    "addMargin": "加仓保证金",
+    "slTpAfter": "加仓后止损/止盈价",
+    "riskAfter": "风险占比(加仓后)",
+    "totalNotionalAfter": "加仓后总仓位价值",
+    "round": "第{n}轮",
+    "capital": "总资金"
+  },
+  "common": {"save": "保存", "cancel": "取消", "confirm": "确认"}
+}

@@ -1,0 +1,73 @@
+{
+  "app": {
+    "name": "Speculator Calculator",
+    "signature": "Beichen Team · Quant & Risk",
+    "brand": "Speculator Calculator"
+  },
+  "nav": {
+    "calculator": "Calculator",
+    "pricing": "Membership",
+    "account": "Account",
+    "admin": "Admin"
+  },
+  "auth": {
+    "login": "Login",
+    "logout": "Logout",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "haveAccount": "Have an account? Login",
+    "noAccount": "No account? Register"
+  },
+  "theme": {
+    "label": "Theme",
+    "classic": "Classic Blue",
+    "darkgold": "Dark Gold",
+    "terminal": "Terminal Green"
+  },
+  "lang": {"zh": "Chinese", "en": "English", "ko": "Korean"},
+  "calculator": {
+    "title": "Contract Calculator",
+    "totalCapital": "Total Capital",
+    "leverage": "Leverage",
+    "side": "Side",
+    "long": "Long",
+    "short": "Short",
+    "entryPrice": "Entry Price",
+    "riskPercent": "Risk % of Capital",
+    "feePercent": "Fee Estimate %",
+    "mode": "Stop/R:R",
+    "stopPrice": "Stop Price",
+    "rr": "R:R (1:x)",
+    "tpPrice": "Take Profit Price",
+    "chooseRR": "When using R:R, provide Take Profit Price",
+    "addOn": "Add on Profit",
+    "profitTrigger": "Trigger on Profit % of Capital",
+    "addPercent": "Add-on % of Capital",
+    "compound": "Compounding",
+    "rounds": "Rounds",
+    "roiPerRound": "ROI per Round %",
+    "compute": "Compute",
+    "results": "Results",
+    "base": "Base",
+    "addOnCalc": "Add-on",
+    "compoundCalc": "Compounding",
+    "slPrice": "Stop Price",
+    "tpPriceOut": "Take Profit Price",
+    "marginUsed": "Margin Used",
+    "fees": "Fees",
+    "pnlClose": "PnL at Close",
+    "riskUsed": "Risk Used %",
+    "notional": "Notional Value",
+    "addTriggerPrice": "Add-on Trigger Price",
+    "avgEntryAfter": "Avg Entry After",
+    "addNotional": "Add-on Notional",
+    "addMargin": "Add-on Margin",
+    "slTpAfter": "SL/TP After",
+    "riskAfter": "Risk % After",
+    "totalNotionalAfter": "Total Notional After",
+    "round": "Round {n}",
+    "capital": "Capital"
+  },
+  "common": {"save": "Save", "cancel": "Cancel", "confirm": "Confirm"}
+}

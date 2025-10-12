@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+:root {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* Financial Themes */
+/* 1. Classic Blue */
+.theme-classic {
+  --background: #0e1726;
+  --card: #0f1c2e;
+  --foreground: #e6eefc;
+  --primary: #2f6feb;
+  --primary-foreground: #eaf1ff;
+  --muted: #a7b4c6;
+  --accent: #7aa2f7;
+}
+
+/* 2. Dark Gold */
+.theme-darkgold {
+  --background: #0c0c0c;
+  --card: #111111;
+  --foreground: #f1e9d2;
+  --primary: #d4af37;
+  --primary-foreground: #1a1200;
+  --muted: #b19c63;
+  --accent: #f6c453;
+}
+
+/* 3. Terminal Green */
+.theme-terminal {
+  --background: #020a02;
+  --card: #031003;
+  --foreground: #ccffcc;
+  --primary: #00ff66;
+  --primary-foreground: #001a0a;
+  --muted: #8affb8;
+  --accent: #39ff14;
+}
+
+html, body {
+  min-height: 100%;
+}
+
+body {
+  @apply bg-[color:var(--background)] text-[color:var(--foreground)] antialiased;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+.card {
+  background-color: var(--card);
+  border: 1px solid color-mix(in oklab, var(--foreground) 12%, transparent);
+  border-radius: 14px;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.text-muted-foreground {
+  color: color-mix(in oklab, var(--foreground) 68%, transparent);
+}
