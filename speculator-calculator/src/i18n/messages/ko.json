@@ -1,0 +1,73 @@
+{
+  "app": {
+    "name": "투기 계산기",
+    "signature": "북진 팀 · 퀀트/리스크",
+    "brand": "투기 계산기"
+  },
+  "nav": {
+    "calculator": "계산기",
+    "pricing": "멤버십",
+    "account": "계정",
+    "admin": "관리자"
+  },
+  "auth": {
+    "login": "로그인",
+    "logout": "로그아웃",
+    "register": "가입",
+    "email": "이메일",
+    "password": "비밀번호",
+    "haveAccount": "계정이 있나요? 로그인",
+    "noAccount": "계정이 없나요? 가입"
+  },
+  "theme": {
+    "label": "테마",
+    "classic": "클래식 블루",
+    "darkgold": "다크 골드",
+    "terminal": "터미널 그린"
+  },
+  "lang": {"zh": "중문", "en": "영문", "ko": "한글"},
+  "calculator": {
+    "title": "계약 계산기",
+    "totalCapital": "총 자본",
+    "leverage": "레버리지",
+    "side": "방향",
+    "long": "롱",
+    "short": "숏",
+    "entryPrice": "진입가",
+    "riskPercent": "위험 비율(%)",
+    "feePercent": "수수료 추정(%)",
+    "mode": "스탑/손익비",
+    "stopPrice": "스탑가",
+    "rr": "손익비(1:x)",
+    "tpPrice": "익절가",
+    "chooseRR": "손익비를 선택하면 익절가를 입력하세요",
+    "addOn": "부가 진입",
+    "profitTrigger": "이익 트리거(자본 대비 %)",
+    "addPercent": "추가 비중(자본 대비 %)",
+    "compound": "복리",
+    "rounds": "회차",
+    "roiPerRound": "회차별 수익률(%)",
+    "compute": "계산",
+    "results": "결과",
+    "base": "기본",
+    "addOnCalc": "추가",
+    "compoundCalc": "복리",
+    "slPrice": "스탑가",
+    "tpPriceOut": "익절가",
+    "marginUsed": "사용 마진",
+    "fees": "수수료",
+    "pnlClose": "청산 손익",
+    "riskUsed": "위험 비율",
+    "notional": "명목 가치",
+    "addTriggerPrice": "추가 트리거 가격",
+    "avgEntryAfter": "추가 후 평균가",
+    "addNotional": "추가 명목 가치",
+    "addMargin": "추가 마진",
+    "slTpAfter": "추가 후 스탑/익절",
+    "riskAfter": "추가 후 위험 비율",
+    "totalNotionalAfter": "추가 후 총 명목",
+    "round": "{n} 회",
+    "capital": "자본"
+  },
+  "common": {"save": "저장", "cancel": "취소", "confirm": "확인"}
+}
