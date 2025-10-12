@@ -1,0 +1,85 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String   @id @default(cuid())
+  email           String   @unique
+  emailVerified   DateTime?
+  passwordHash    String
+  name            String?
+  locale          String   @default("zh")
+  role            Role     @default(USER)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  memberships     Membership[]
+  sessions        Session[]
+  payments        Payment[]
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  user         User     @relation(fields: [userId], references: [id])
+  userId       String
+  sessionToken String   @unique
+  expires      DateTime
+  createdAt    DateTime @default(now())
+}
+
+model Membership {
+  id              String   @id @default(cuid())
+  user            User     @relation(fields: [userId], references: [id])
+  userId          String
+  plan            MembershipPlan
+  status          MembershipStatus @default(ACTIVE)
+  startedAt       DateTime         @default(now())
+  expiresAt       DateTime?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+}
+
+enum MembershipPlan {
+  BASIC
+  PRO
+  ELITE
+}
+
+enum MembershipStatus {
+  ACTIVE
+  EXPIRED
+  CANCELED
+}
+
+model Payment {
+  id            String   @id @default(cuid())
+  user          User     @relation(fields: [userId], references: [id])
+  userId        String
+  provider      PaymentProvider
+  providerTxId  String?  @unique
+  amountUSDT    Decimal
+  status        PaymentStatus @default(PENDING)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  meta          Json?
+}
+
+enum PaymentProvider {
+  ALIPAY
+  NOWPAYMENTS_USDT
+}
+
+enum PaymentStatus {
+  PENDING
+  CONFIRMED
+  FAILED
+}
